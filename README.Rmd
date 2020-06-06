@@ -5,22 +5,11 @@ editor_options:
   chunk_output_type: inline
 ---
 
-<style>
-pre {
-  overflow-x: auto;
-}
-pre code {
-  word-wrap: normal;
-  white-space: pre;
-}
-.main-container {
-    max-width: 1800px !important;
-  }
-</style>
 
 ```{r global_options, include=FALSE}
 #options(width = 1300)
 knitr::opts_chunk$set(warning=FALSE)
+knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "README_figs/README-")
 ```
 
 Author: TeYang, Lau <br>
