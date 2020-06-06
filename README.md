@@ -24,8 +24,8 @@ Last Updated: 6 June 2020
 * Performed Mixed ANOVAS to look at sleep and physical activity changes from before Circuit Breaker to during Circuit Breaker for each each group
 
 ## **About this dataset** ##
-This data is shared by courtesy of the Singapore Health Promotion Board, as part of the [Health Insights Singapore (hiSG)] (https://www.hpb.gov.sg/hisg) study. 
-
+This data is shared by courtesy of the Singapore Health Promotion Board, as part of the [Health Insights Singapore (hiSG\)] (https://www.hpb.gov.sg/hisg) study. 
+[Convert.ToBase64String(byte\[\])](http://msdn.microsoft.com/en-us/library/dhx0d524(v=vs.110).aspx)
 Sleep and Cognition Laboratory, Centre for Sleep and Cognition, Yong Loo Lin School of Medicine, National University of Singapore
 
 ## **EDA** ##
