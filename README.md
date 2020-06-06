@@ -46,12 +46,22 @@ We used **K-means++** to cluster the 120,000+ daily intraday logged step counts 
 3. Active 2-Peak Later
 4. Inactive 3-Peak
 
-<img src = './README_figs/README-unnamed-chunk-3-1.png'>
+<img src = './README_figs/README-unnamed-chunk-3-1.png' width=700>
 
 ## **Clustering Proportion Spent in each Profile** 
 Having identified 4 sets of daily RAR profiles, we computed for each participant, the proportion of time spent in each RAR profile, for both before the circuit breaker (Pre-CB), and during the circuit breaker (CB). These proportions represents the composition of and change in RAR profiles throughour the COVID19 period for each individual. Next, we clustered these proportions using hierarchical clustering to identify groups of participants whose RAR compositions were similarly affected by COVID19.
 
+The left stacked chart shows the proportion of states throughout the COVID19 period. The weekday-weekend changes in RAR profiles can clearly be seen, although this difference was attenuated during circuit breaker. There was also an increase in less active RAR profiles and decrease in more active RAR profiles during circuit breaker. The right chart shows the hierarchical clustering. 4 clusters were chosen based on most appropriate place to cut the dendrogram. Differences in RAR composition can clearly be seen between clusters.
+
 <img src = './Pictures/stacked.jpg' width='400'> <img src = './Pictures/dendrohm.jpg' width='400'>
+
+## **Visualizing RAR Changes Through COVID19** 
+Having clustered participants into different groups according to their RAR composition, we plotted their RAR time series profiles throughout the whole period as a heatmap. The 4 groups showed very distinct patterns, indicating the differential impact of COVID19 on them. WE can see that Group 1 was greatly affected, becoming less active during CB, while Group 2 remained consistently active.
+
+<img src = './Pictures/Heatmap.jpg'>
+
+
+
 
 
 
