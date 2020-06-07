@@ -1,9 +1,97 @@
 Rest Activity Rhythms During COVID19 Pandemic
 ================
 
-Author: TeYang, Lau <br> Last Updated: 6 June 2020
+[![made-with-RStudio](https://img.shields.io/badge/Made%20with-RStudio-lightblue.svg)](https://rstudio.com/)
+[![made-with-RMarkdown](https://img.shields.io/badge/Made%20with-RMarkdown-lightblue.svg)](https://rmarkdown.rstudio.com/)
+[![Generic
+badge](https://img.shields.io/badge/STATUS-INPROGRESS-%3CCOLOR%3E.svg)](https://shields.io/)
+[![GitHub
+license](https://img.shields.io/github/license/teyang-lau/%20COVID19_Rest_Activity_Rhythms.svg)](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/LICENSE)
+
+Author: TeYang, Lau <br> Last Updated: 7 June 2020
 
 <img src = './Pictures/covid.jpg'>
+
+### **Please refer to the research journal article [Ong, Lau, Massar et al. 2020]() published in … for the full scope and results of the project.**
+
+## **Project Motivation**
+
+The COVID19 pandemic has led to global panic and governments had to
+issue lockdown orders to contain the spread of the virus. According to
+anecdotes, this mobility restriction has massively disrupted the daily
+routines of people worldwide. Behaviors such as physical activity and
+sleep were reported to be affected, although no results have been
+published. People have also reported more stress and anxiety due to the
+pandemic. The basis of this project started from wanting to empirically
+investigate how the rest activity rhythms of people were affected by
+this mobility restriction. Having a dataset with access to daily
+longitudinal, technologically-derived physical activity and sleep
+allowed us to do this.
+
+## **Project Goals**
+
+1.  To **investigate** rest activity rhythm changes throughout the
+    COVID19 pandemic
+2.  **Cluster** days of steps counts to **identify** basis sets of rest
+    activity rhythm (RAR) profiles
+3.  **Identify** groups of individuals who were differentially impacted
+    by COVID19
+4.  **Identify** the sociodemographic composition of each group
+5.  **Investigate** how each group was affected in terms of sleep and
+    physical activity
+
+## **Contents**
+
+  - About Rest Activity Rhythms (RARs)
+  - About this dataset
+
+<!-- end list -->
+
+1.  Data Loading
+2.  Data Cleaning and Filtering
+3.  Kmeans Clustering Steps <br> 3.1. Rest activity rhythm profile plots
+    <br> 3.2. Individual time series RAR plots
+4.  Hierarchical Clustering of Proportion of Time Spent in each Profile
+    <br> 4.1. Clean and wrangle <br> 4.2. Proportion of time spent in
+    each profile <br> 4.3. Hierarchical Clustering
+5.  Social Demographics by Cluster <br> 5.1. Age <br> 5.2. Gender <br>
+    5.3. Ethnicity <br> 5.4. Family Status <br> 5.5. Education <br> 5.6.
+    Household Earnings
+6.  Physical Activity and Sleep By Cluster
+
+## **About Rest Activity Rhythms (RARs)**
+
+Rest activity rhythms are simply the sleep-wake patterns of individuals
+that usually follow a diurnal pattern, and they display rhythmicity that
+is quite similar to the human endogenous circadian rhythm. They are
+determined by the interaction of biological clocks, light exposure and
+social factors. The timing, amplitude and regularity of RARs can
+influence health and behavior, and when disrupted, can lead to increased
+physical and mental morbidity.
+
+## **About this dataset**
+
+This data is shared by courtesy of the Singapore Health Promotion Board,
+as part of the [Health Insights Singapore
+(hiSG)](https://www.hpb.gov.sg/hisg) study. hiSG is a population health
+study which seeks to better understand the health behaviours and
+lifestyles of Singapore residents through wearable technology.
+Participants were given devices (Fitbit™ Ionic, Fitbit™ Inc, San
+Francisco, CA) to track their activity/sleep and installed a mobile
+application to complete surveys over a period of 2 years. They were
+rewarded with points convertible to vouchers if they wore the tracker
+daily, logged sleep, meals, and completed surveys and were allowed to
+keep the device conditional on meeting study requirements.
+
+hiSG consisted of a few phases targeting different population. The
+dataset used for this current analysis was from the first phase, which
+targeted young adults working in the Singapore Central Business District
+aged 21-40 years old.
+
+Data was shared with the Sleep and Cognition Laboratory, Centre for
+Sleep and Cognition, Yong Loo Lin School of Medicine, National
+University of Singapore. This analysis is only a portion of the analysis
+that was conducted in the Sleep and Cognition Laboratory.
 
 # 1\. Data Loading
 
@@ -29,48 +117,74 @@ L2$cluster_k4_L2 <- match(L2$cluster_k4_L2, c(1,3,2,4)) # swap 3 and 2 so that 2
 tod_15min <- as.character(read.table("./Data/tod_15min.txt")[,1]) # load text file with 24hr time in 15min intervals
 names(steps)[3:98] <-c(tod_15min)
 
-head(steps[,1:24])
-##           DRID       Date 00:00 00:15 00:30 00:45 01:00 01:15 01:30 01:45 02:00
-## 1 0005E6C2E97A 2020-01-07     0     0     0     0     0     0     0     0     0
-## 2 0005E6C2E97A 2020-01-16     0     0     0     0    17     0     0     0     0
-## 3 0005E6C2E97A 2020-01-18     0     0     0     0     0    19     0     0     0
-## 4 0005E6C2E97A 2020-01-25     0     0     0     0     0     0     0     0     0
-## 5 0005E6C2E97A 2020-02-20     0     0     0     0     0     0     0     0     0
-## 6 0005E6C2E97A 2020-03-13     0     0     0     0     0     0     0     0     0
-##   02:15 02:30 02:45 03:00 03:15 03:30 03:45 04:00 04:15 04:30 04:45 05:00 05:15
-## 1     0     0     0     0     0     0     0     0     0     0     0     0     0
-## 2     0     0     0     0     0     0     0     0     0     0     0     0     0
-## 3     0     6     0     0     0     0     0     0     0    11     0     0     0
-## 4     0     0     0     0     0     0     0     0     0     0     0     0     0
-## 5     0     0     0     0     0     0     0     0     0     0     0     0     0
-## 6     0     0     0     0     0     0     0     0     0     0     0     0     0
+head(steps[,2:24])
+##         Date 00:00 00:15 00:30 00:45 01:00 01:15 01:30 01:45 02:00 02:15 02:30
+## 1 2020-01-07     0     0     0     0     0     0     0     0     0     0     0
+## 2 2020-01-16     0     0     0     0    17     0     0     0     0     0     0
+## 3 2020-01-18     0     0     0     0     0    19     0     0     0     0     6
+## 4 2020-01-25     0     0     0     0     0     0     0     0     0     0     0
+## 5 2020-02-20     0     0     0     0     0     0     0     0     0     0     0
+## 6 2020-03-13     0     0     0     0     0     0     0     0     0     0     0
+##   02:45 03:00 03:15 03:30 03:45 04:00 04:15 04:30 04:45 05:00 05:15
+## 1     0     0     0     0     0     0     0     0     0     0     0
+## 2     0     0     0     0     0     0     0     0     0     0     0
+## 3     0     0     0     0     0     0     0    11     0     0     0
+## 4     0     0     0     0     0     0     0     0     0     0     0
+## 5     0     0     0     0     0     0     0     0     0     0     0
+## 6     0     0     0     0     0     0     0     0     0     0     0
 ```
+
+Each row refers to each day of a single participant. The 6 rows
+presented belongs to the same individual. The first columns contains the
+ID, which is not shown here. The rest of the columns display the Date
+followed by the 96 15-min interval step counts, starting from 00:00 and
+ending at 23:45.
 
 <br>
 
-# 2\. Data Cleaning
+# 2\. Data Cleaning and Filtering
 
-<font size="4">
+As Fitbit data is noisy and contains days where participants do not wear
+the watch or wear it for only a short period of time, we had to clean
+and filter them prior to modelling. Briefly, we removed days with
+extremely high steps counts, days with very low weartime, and days with
+no resting heart rate. Below is a list of criteria used to remove days
+that were deemed to be atypical or a non-wear day.
 
-1.  Steps Data on Weekdays
+<font size="4"> \* Filter out days:
 
-2.  First 28 days
-
-3.  At least 10 Weekdays
-
-4.  Filter days out:
-    
-      - Total Steps \> 50000
-      - Total Steps \> 40000 & Sedentary Minutes \> 1320 min
-      - Sedentary Minutes == 1440 min
-      - No Resting Heart Rate
-      - WearTime \< 780 min
+    + Total Steps > 50000 
+    + Total Steps > 40000 & Sedentary Minutes > 1320 min
+    + Sedentary Minutes == 1440 min
+    + No Resting Heart Rate
+    + WearTime < 780 min
 
 </font>
 
+Having missing data also means that some participants did not have
+sufficient data throughout the period of interest. These participants
+were removed based on a selected required proportion of days throughout
+the period. For the analysis presented here, data was limited to 1
+January 2020 to 27 April 2020 to evaluate the impact of the COVID-19
+pandemic. We were left with 125,851 days from 1,851 participants that
+were then fed into a k-means clustering model.
+
 # 3\. Kmeans Clustering Steps
 
-<br>
+We used **K-means++** to cluster the daily intraday logged step counts.
+This algorithm helps to optimize the initialization of the cluster
+centres by randomly selecting the first cluster centre, and subsequently
+choosing additional cluster centres from the remaaining data points with
+probability proportional to their squared distance from the nearest
+existing cluster centres. Simply put, it tries to separate the initiajl
+cluster centres as far as possible instead of just randomly choosing
+them in the case of traditional k-means. This speeds up convergence to
+optimum. For the number of k, we decided on a k=4 cluster cutoff for a
+parsimonious yet meaningful set of clusters. The distance metric used
+was euclidean distance.
+
+K-means clustering was done on MATLAB as it allows parallel computing
+but not R. Thus, the code is not shown here. <br>
 
 ``` r
 ## Log Steps
@@ -83,16 +197,23 @@ steps_log <- cbind(steps_log, L2) %>% mutate(cluster_k4_L2=factor(cluster_k4_L2)
 
 <br>
 
-## 3.1. Rest Activity Rhythm Profile Plots
+## 3.1. Rest activity rhythm profile plots
+
+We named the 4 clusters/profiles based on their RAR profile magnitude,
+phase, and shape:
+
+1.  Active 3-Peak Early
+2.  3-Peak Middle
+3.  Active 2-Peak Later
+4.  Inactive 3-Peak
+
+<!-- end list -->
 
 ``` r
-
 # Euclidean cluster aggregate
 steps_agg_log_k4_L2 <- aggregate(steps_log[, 3:98],
                            by = list(steps_log$cluster_k4_L2),
                            FUN = mean)
-
-
 
 ## Plot Cluster Profiles
 #### Euclidean Distance 
@@ -117,7 +238,10 @@ axis(2, cex.axis=2, tck=-0.02)
 
 <img src="README_figs/README-unnamed-chunk-3-1.png" width="672" />
 
-## 3.2. Individual Time Series RAR Plots
+## 3.2. Individual time series RAR plots
+
+Here, we looked at the time series RAR throughout the COVID19 period for
+3 participants.
 
 ``` r
 # Get some samples for plotting
@@ -152,9 +276,32 @@ p + facet_grid(rows=vars(index))
 
 <img src="README_figs/README-unnamed-chunk-4-1.png" width="672" /> <br>
 
+The plots are color-coded with the 4 profile states. The 2 dotted black
+lines indicate the pubs closure and start of circuit breaker in
+Singapore respectively. Participant 144 was clearly affected by the pubs
+closure and circuit breaker, as their RARs shifted from primarily brown
+(Active 2-Peak Later) to red (Inactive 3-Peak) slightly before the start
+of circuit breaker. Participant 709 was less affected, and you can see
+clear weekday-weekend differences for the last 2/3 of the time series.
+
+<br>
+
 # 4\. Hierarchical Clustering of Proportion of Time Spent in each Profile
 
+Having identified 4 sets of daily RAR profiles, we computed for each
+participant, the proportion of time spent in each RAR profile, for both
+before the circuit breaker (Pre-CB), and during the circuit breaker
+(CB). These proportions represents the composition of and change in RAR
+profiles throughour the COVID19 period for each individual. The purpose
+here is to identify groups whose RARs were distinctly affected by the
+pandemic.
+
 ## 4.1. Clean and wrangle
+
+Here, we further filtered the participants such that those eligible are
+required to have at least 60% of valid days both pre-circuit breaker and
+during circuit breaker. We then wrangle the data to long format for
+plotting and further analysis.
 
 ``` r
 # Fill in missing days
@@ -186,9 +333,12 @@ events <- data.frame(n=c('First\nCase','Chinese\nNew Year','Health Alert\nLevel 
 
 ## 4.2. Proportion of time spent in each profile
 
-``` r
-# K4_L1
+We then proceeded to compute the proportion of time each individual
+spend in each state pre-circuit breaker and during circuit breaker. Each
+row of the dataframe refers to 1 individual. The first column contains
+the ID and is not shown here.
 
+``` r
 # Proportion of time spent in each state Pre-Circuit Breaker
 precb <- long %>% filter(Date <'2020-04-07') %>% filter(!is.na(cluster_k4_L2)) %>% group_by(DRID) %>% 
   mutate(ndays=n()) %>% as.data.frame() %>% # get total days for each subject with no NAs
@@ -214,38 +364,92 @@ preduringcb_k4_L2 <- preduringcb_k4_L2[,c(1,2,6,3,7,4,8,5,9)]
 # preduringcb_k4_L2 <- preduringcb_k4_L2 %>% select(-DRID) %>% scale(.) %>% as.data.frame() %>% 
 #   mutate(DRID = precb$DRID) %>% select(DRID, everything())
 
-head(preduringcb_k4_L2)
-##           DRID Pre-CB Active 3-Peak Early CB Active 3-Peak Early
-## 1 01649F4AE947                 0.37234043             0.00000000
-## 2 01E802FE0EB8                 0.28947368             0.07692308
-## 3 030400C90A1B                 0.07368421             0.00000000
-## 4 0326D16F595E                 0.29032258             0.07142857
-## 5 03F2F15F67BC                 0.12658228             0.00000000
-## 6 043E928B6255                 0.54639175             0.20000000
-##   Pre-CB 3-Peak Middle CB 3-Peak Middle Pre-CB Active 2-Peak Later
-## 1            0.1063830        0.0000000                 0.17021277
-## 2            0.5131579        0.3076923                 0.14473684
-## 3            0.5473684        0.2380952                 0.28421053
-## 4            0.5913978        0.6428571                 0.03225806
-## 5            0.2784810        0.0625000                 0.26582278
-## 6            0.1958763        0.2000000                 0.20618557
-##   CB Active 2-Peak Later Pre-CB Inactive 3-Peak CB Inactive 3-Peak
-## 1              0.0000000             0.35106383         1.00000000
-## 2              0.4615385             0.05263158         0.15384615
-## 3              0.0952381             0.09473684         0.66666667
-## 4              0.2142857             0.08602151         0.07142857
-## 5              0.0000000             0.32911392         0.93750000
-## 6              0.3500000             0.05154639         0.25000000
+head(preduringcb_k4_L2[,2:9])
+##   Pre-CB Active 3-Peak Early CB Active 3-Peak Early Pre-CB 3-Peak Middle
+## 1                 0.37234043             0.00000000            0.1063830
+## 2                 0.28947368             0.07692308            0.5131579
+## 3                 0.07368421             0.00000000            0.5473684
+## 4                 0.29032258             0.07142857            0.5913978
+## 5                 0.12658228             0.00000000            0.2784810
+## 6                 0.54639175             0.20000000            0.1958763
+##   CB 3-Peak Middle Pre-CB Active 2-Peak Later CB Active 2-Peak Later
+## 1        0.0000000                 0.17021277              0.0000000
+## 2        0.3076923                 0.14473684              0.4615385
+## 3        0.2380952                 0.28421053              0.0952381
+## 4        0.6428571                 0.03225806              0.2142857
+## 5        0.0625000                 0.26582278              0.0000000
+## 6        0.2000000                 0.20618557              0.3500000
+##   Pre-CB Inactive 3-Peak CB Inactive 3-Peak
+## 1             0.35106383         1.00000000
+## 2             0.05263158         0.15384615
+## 3             0.09473684         0.66666667
+## 4             0.08602151         0.07142857
+## 5             0.32911392         0.93750000
+## 6             0.05154639         0.25000000
 ```
+
+<br>
+
+### Propotion of each profile state throughout COVID19
+
+``` r
+## Stacked Area Chart of Proportion Spent in Each State
+stacked <- long %>% filter(!is.na(cluster_k4_L2)) %>% filter(Date >= '2020-01-02') %>% group_by(Date, cluster_k4_L2) %>% 
+  summarise(n = n()) %>% mutate(Proportion=n/sum(n))
+stackprop <- ggplot(stacked, aes(x=Date, y=Proportion, fill=factor(cluster_k4_L2))) + 
+  geom_area(alpha=0.6 , size=1) +
+  scale_x_datetime(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_manual(values = c("chartreuse2","dodgerblue2",'tan3',"#990000"),na.value = "gray30", name='Clusters', labels=c("Active 3-Peak Early", "3-Peak Middle","Active 2-Peak Later", 'Inactive 3-Peak')) +
+  theme(axis.line=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        axis.ticks = element_blank(), axis.text=element_text(color='black')) +
+  geom_vline(xintercept=as.numeric(as.POSIXct(c('2020-04-7'))), linetype='dashed', lwd=1, color = "black") + 
+  annotation_custom(
+      grob = grid::textGrob(label = 'Circuit\nBreaker', hjust = 0, gp = grid::gpar(cex = 0.8)),
+      ymin = 0.08,      # Vertical position of the textGrob
+      ymax = 0.08,
+      xmin = events$Date[7] + 86400,         # Note: The grobs are positioned outside the plot area
+      xmax = events$Date[7] + 86400) 
+  
+# Top Event Bar
+g2 <- data.frame(Date) %>% filter(Date != '2020-01-01') %>%  # remove 1 Jan
+  mutate(Weekday = factor(as.numeric(timeDate::isWeekday(Date))), Date=as.POSIXct(Date, format='%Y-%m-%d', tz='Singapore'))
+topbar2 <- ggplot(g2, aes(y = 0, x = Date)) + geom_point(aes(color = Weekday), shape = 15, size = 3, show.legend = T) + 
+    scale_color_manual(values = c('#132B43', '#cccccc'), labels=c('Weekend','Weekday')) + # WE is 0, WD is 1
+    theme_classic() + 
+    theme(axis.title = element_blank(), axis.line = element_blank(), 
+          axis.text = element_blank(), axis.ticks = element_blank(),
+          plot.margin = unit(c(0,0,0,0), "lines"),
+          legend.position = 'top') +
+          scale_x_datetime(expand=c(0,0.9)) 
+
+par(mar=c(1,1,1,1))
+stackprop + annotation_custom(ggplotGrob(topbar2), ymin = 1.3) + coord_cartesian(clip = "off") + 
+  theme(plot.margin=unit(c(2.5,0,0,0),"cm"))
+```
+
+<img src="README_figs/README-unnamed-chunk-7-1.png" width="672" /> <br>
+
+The stacked chart shows the proportion of each state throughout the
+COVID19 period. The weekday-weekend changes in RAR profiles can clearly
+be seen, although this difference was attenuated during circuit breaker.
+There was also an increase in less active RAR profiles and decrease in
+more active RAR profiles during circuit breaker.
 
 <br>
 
 ## 4.3. Hierarchical Clustering
 
+Next, we clustered these proportions using hierarchical clustering to
+identify groups of participants whose RAR compositions were
+differentially affected by COVID19.
+
 ### Dendrogram and heatmap
 
-``` r
+4 clusters were chosen based on the most appropriate place to cut the
+dendrogram.
 
+``` r
 # hierarchical clustering
 res.dist <- dist(preduringcb_k4_L2[-1], method = "euclidean")
 res.hc <- hclust(d = res.dist, method = "ward.D2")
@@ -257,7 +461,7 @@ dend <- color_branches(dend, col=c("#990000","chartreuse2","dodgerblue2",'tan3')
 plot_horiz.dendrogram(dend, side = F)
 ```
 
-<img src="README_figs/README-unnamed-chunk-7-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-8-1.png" width="672" />
 
 ``` r
 grp <- c(1:670)
@@ -295,50 +499,22 @@ gplots::heatmap.2(as.matrix(preduringcb_k4_L2 %>% select(-DRID,-cluster)),
           )
 ```
 
-<img src="README_figs/README-unnamed-chunk-8-1.png" width="672" /> <br>
-
-### Propotion of each profile state throughout COVID19
-
-``` r
-
-## Stacked Area Chart of Proportion Spent in Each State
-stacked <- long %>% filter(!is.na(cluster_k4_L2)) %>% filter(Date >= '2020-01-02') %>% group_by(Date, cluster_k4_L2) %>% 
-  summarise(n = n()) %>% mutate(Proportion=n/sum(n))
-stackprop <- ggplot(stacked, aes(x=Date, y=Proportion, fill=factor(cluster_k4_L2))) + 
-  geom_area(alpha=0.6 , size=1) +
-  scale_x_datetime(expand = c(0, 0)) +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_fill_manual(values = c("chartreuse2","dodgerblue2",'tan3',"#990000"),na.value = "gray30", name='Clusters', labels=c("Active 3-Peak Early", "3-Peak Middle","Active 2-Peak Later", 'Inactive 3-Peak')) +
-  theme(axis.line=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        axis.ticks = element_blank(), axis.text=element_text(color='black')) +
-  geom_vline(xintercept=as.numeric(as.POSIXct(c('2020-04-7'))), linetype='dashed', lwd=1, color = "black") + 
-  annotation_custom(
-      grob = grid::textGrob(label = 'Circuit\nBreaker', hjust = 0, gp = grid::gpar(cex = 0.8)),
-      ymin = 0.08,      # Vertical position of the textGrob
-      ymax = 0.08,
-      xmin = events$Date[7] + 86400,         # Note: The grobs are positioned outside the plot area
-      xmax = events$Date[7] + 86400) 
-  
-# Top Event Bar
-g2 <- data.frame(Date) %>% filter(Date != '2020-01-01') %>%  # remove 1 Jan
-  mutate(Weekday = factor(as.numeric(timeDate::isWeekday(Date))), Date=as.POSIXct(Date, format='%Y-%m-%d', tz='Singapore'))
-topbar2 <- ggplot(g2, aes(y = 0, x = Date)) + geom_point(aes(color = Weekday), shape = 15, size = 3, show.legend = T) + 
-    scale_color_manual(values = c('#132B43', '#cccccc'), labels=c('Weekend','Weekday')) + # WE is 0, WD is 1
-    theme_classic() + 
-    theme(axis.title = element_blank(), axis.line = element_blank(), 
-          axis.text = element_blank(), axis.ticks = element_blank(),
-          plot.margin = unit(c(0,0,0,0), "lines"),
-          legend.position = 'top') +
-          scale_x_datetime(expand=c(0,0.9)) 
-
-par(mar=c(1,1,1,1))
-stackprop + annotation_custom(ggplotGrob(topbar2), ymin = 1.3) + coord_cartesian(clip = "off") + 
-  theme(plot.margin=unit(c(2.5,0,0,0),"cm"))
-```
-
 <img src="README_figs/README-unnamed-chunk-9-1.png" width="672" /> <br>
 
+The heatmap shows the result of the hierarchical clustering. Each row
+belongs to 1 participant. Differences in RAR composition can clearly be
+seen between clusters. For example, the red cluster of participants
+shows a higher proportion of Inactive 3-Peak profiles during CB but not
+other profiles, while the green cluster shows consistently high
+proportions of 3-Peak Early both pre-CB and post-CB.
+
+<br><br><br>
+
 ### Heatmap of individual RAR time series grouped by cluster
+
+Having clustered participants into different groups according to their
+RAR composition, we plotted their RAR time series profiles throughout
+the whole period as a heatmap.
 
 ``` r
 k4_L2_cluster_hm <- ggplot(ppcb_long_k4_L2,aes(x=Date,y=rev(idx),fill=cluster_k4_L2))+
@@ -379,7 +555,21 @@ par(mar=c(2.5,1,1,1))
 hm <- k4_L2_cluster_hm + annotation_custom(ggplotGrob(topbar), ymin = 725)
 ```
 
-<img src = './Pictures/Heatmap.jpg'>
+<img src = './Pictures/Heatmap.jpg'> <br> Again, each row represents 1
+individual. We can clearly see the weekday-weekend distinction, with
+weekdays consisting of mostly brown delayed active days (Active 2-Peak
+Later). More importantly and strikingly, the 4 groups showed very
+distinct patterns, indicating the differential impact of COVID19 on
+them. We can see that Group 1, which made up about 50% of the entire
+sample, was greatly affected, becoming less active during CB, while
+Group 2 remained consistently active.
+
+This heatmap also shows that the pandemic per se did not alter the
+rest-activity rhythms of individuals that much, but it was the mobility
+restriction (circuit breaker/lockdown) imposed by the government that
+led to the changes.
+
+<br>
 
 # 5\. Social Demographics by Cluster
 
