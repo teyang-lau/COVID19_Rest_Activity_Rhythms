@@ -413,7 +413,9 @@ This heatmap also shows that the pandemic per se did not alter the rest-activity
 
 <br>
 
-# 5. Social Demographics by Cluster
+# 5. Social Demographics by Group
+We then proceeded to look at how the 4 groups differed in terms of sociodemographics. One-way ANOVAs followed by post-hoc tests were used for age while Chi-Square Test of Independence were used for all other categorical variables. Mosaic plots were used to show the chi-square tests results. It compares each cell's expected frequency with its observed frequency. If the cell is shaded blue, it means it has a significantly higher observed than expected frequency. If the cell is shaded red, it means a lower observed than expected frequency.
+
 ## 5.1. Age
 ```{r, message=F,warning=F}
 sociodemo <- read.csv('C:/Users/TeYan/OneDrive/Work/Github/COVID19_RAR/Data/sociodemo.csv', header = TRUE) %>%
@@ -449,11 +451,14 @@ plot_violin <- function(df, summ, y, ymin, ymax, p_pos_y, title, j_size=0.6, p_s
 #pairwise.t.test(sociodemo$Age, sociodemo$cluster, p.adjust.method = "none")
 
 ageSE <- sociodemo %>% group_by(cluster) %>% summarise(mean = mean(Age), se = sqrt(var(Age)/length(Age)))
-my_comparisons <- list(c(1,2),c(1,3),c(1,4))
+my_comparisons <- list(c(1,2),c(1,4))
 plot_violin(sociodemo, ageSE, Age, 10, 50, 48, '', j_size=1) + 
   stat_compare_means(comparisons = my_comparisons, method = 't.test', label = "p.signif", label.y=c(48,46,44)) + ylab('Age')
 
 ```
+<br>
+
+Group 1 is on average, ~1.5-2 years younger than Group 2, 3 and 4, although the Group 1 & 3 posthoc pairwise comparison did not reach significance (*p* = .05)
 
 ## 5.2. Gender
 ```{r, message=F,warning=F}
@@ -498,6 +503,11 @@ mosaic(~ cluster+newFamStatus, data = sociodemo
       , set_labels=list(newFamStatus = c('MNC','MWC','SDW','Single'))
       , gp_labels=(gpar(fontsize=7)))
 ```
+<br>
+
+* Group 1 has more singles and less married with children individuals than expected. 
+* Group 2 has more married with children and less married with no children. 
+* Group 4 has less singles and more married with children individuals than expected.
 
 ## 5.5. Education
 ```{r, message=F,warning=F}
@@ -531,6 +541,7 @@ mosaic(~ cluster+HouseholdEarnings, data = sociodemo
 ```
 
 # 6. Physical Activity and Sleep By Cluster
+We also investigated how each group differ in terms of their physical activity and sleep between pre-CB and during CB. Mixed ANOVAs were used and when significant, post-hoc pairwise comparisons were used.
 ```{r, message=F,warning=F}
 
 # Load Sleep Data
@@ -600,5 +611,16 @@ bt <- ggplot(df_filt, aes(x=cluster, y=outliers_removed), ylab = 'Bedtime (hh:mm
 
 ```
 <img src = './Pictures/Figure 4 Sleep and PA Boxplots.jpg'>
+
+<br>
+
+Not surprisingly, Group 1 and Group 4 both has later bedtimes during CB than before CB. All 4 groups also had later wake up times, as most people can work from home. In terms of time in bed and total sleep time, most groups slept more during the CB, which was not consistent with anecdotes suggesting that sleep might be affected. In fact, sleep improved.
+
+In terms of physical activity, all groups experienced reduce total steps due to the mobility restriction and only Group 3 did not have reduced MVPA, which is stands for moderate to vigorous physical activity.
+
+Lastly, resting heart rate drop by about 2 bpm. Lower resting heart rate is usually a associated with better health. This reduction might be due to a couple of reasons such as not needing to go to work and increased sleep time. All in all, the circuit breaker seems to only affect physical activity negatively, with bed time and wake time delayed.
+
+# 7. Conclusions
+Longitudinal monitoring of rest activity rhythms through the COVID19 period which was governed by mobility restrictions revealed heterogenous patterns of sleep and physical activity. This provides an opportunity to identify persons or groups at risk and administer interventions should further lockdowns occur. During the circuit breaker, there was on average, a 38% decrease in total steps, which was way higher than the gain in a previous physical activity intervention program that aimed to incentivize people to exercise. As lower physical activity is linked to obesity and increases the risk of cardiovascular diseases, interventions should be taken to address the extremely high reduction in steps for long periods of time, especially when people are not allowed to leave their houses. Finally, the impact of a longer lockdown would surely have more drastic consequences and should be studied should it be extended due to the pandemic.
 
 
