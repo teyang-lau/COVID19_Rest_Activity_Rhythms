@@ -6,7 +6,7 @@ Rest Activity Rhythms During COVID19 Pandemic
 [![Generic
 badge](https://img.shields.io/badge/STATUS-INPROGRESS-%3CCOLOR%3E.svg)](https://shields.io/)
 [![GitHub
-license](https://img.shields.io/github/license/teyang-lau/%20COVID19_Rest_Activity_Rhythms.svg)](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/LICENSE)
+license](https://img.shields.io/github/license/teyang-lau/COVID19_Rest_Activity_Rhythms)](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/LICENSE)
 
 Author: TeYang, Lau <br> Last Updated: 7 June 2020
 
