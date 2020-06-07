@@ -11,7 +11,7 @@ Last Updated: 6 June 2020
 
 <br>
 
-### **Please refer to this [document]() for a more detailed description, analysis and insights of the project.** 
+### **Please refer to this [document](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/COVID19_Cluster_Analysis.md) for a more detailed description, analysis and insights of the project.** 
 ### **Alternatively, refer to the research journal article [Ong, Lau, Massar et al. 2020]() published in ... for the full scope and results of the project.**
 
 ## **Project Goals** ##
