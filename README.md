@@ -1,4 +1,9 @@
 # Rest Activity Rhythms During COVID19 Pandemic
+[![made-with-RStudio](https://img.shields.io/badge/Made%20with-RStudio-lightblue.svg)](https://rstudio.com/)
+[![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg)](http://commonmark.org)
+[![Generic badge](https://img.shields.io/badge/STATUS-INPROGRESS-<COLOR>.svg)](https://shields.io/)
+[![GitHub license](https://img.shields.io/github/license/teyang-lau/covid-19-trends.svg)](https://github.com/teyang-lau/covid-19-trends/blob/master/LICENSE)
+
 Author: TeYang, Lau <br>
 Last Updated: 6 June 2020
 
