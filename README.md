@@ -12,7 +12,7 @@ Last Updated: 6 June 2020
 <br>
 
 ### **Please refer to this [document](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/COVID19_Cluster_Analysis.md) for a more detailed description, analysis and insights of the project.** 
-### **Alternatively, refer to the research journal article [Ong, Lau, Massar et al. 2020]() published in ... for the full scope and results of the project.**
+### **Alternatively, refer to the research journal article [Ong, Lau, Massar et al. COVID-19 Related Mobility Reduction: Heterogenous Effects on Sleep and Physical Activity Rhythms. 2020](https://academic.oup.com/sleep/advance-article/doi/10.1093/sleep/zsaa179/5904453) published in SLEEP for the full scope and results of the project.**
 
 ## **Project Goals** ##
 1. To **investigate** rest activity rhythm changes throughout the COVID19 pandemic
@@ -66,7 +66,7 @@ Having clustered participants into different groups according to their RAR compo
 <img src = './Pictures/Heatmap.jpg'>
 
 ## **Conclusion**
-COVID19 has clearly impacted us in a lot of ways and this can be clearly seen from the plots above. Here, we identified 4 basis RAR profile throughout the COVID19 period and identified 4 distinct groups of individuals with different composite of RARs, highlighting how each group was differentially affected by the pandemic. Furthermore, these groups differ in terms of sociodemographics, sleep and physical activity. For further insights into these results and analyses, please refer to this [document](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/COVID19_Cluster_Analysis.md) or to the journal article [Ong, Lau, Massar et al. 2020]() published in ...
+COVID19 has clearly impacted us in a lot of ways and this can be clearly seen from the plots above. Here, we identified 4 basis RAR profile throughout the COVID19 period and identified 4 distinct groups of individuals with different composite of RARs, highlighting how each group was differentially affected by the pandemic. Furthermore, these groups differ in terms of sociodemographics, sleep and physical activity. For further insights into these results and analyses, please refer to this [document](https://github.com/teyang-lau/COVID19_Rest_Activity_Rhythms/blob/master/COVID19_Cluster_Analysis.md) or to the journal article [Ong, Lau, Massar et al. COVID-19 Related Mobility Reduction: Heterogenous Effects on Sleep and Physical Activity Rhythms. 2020](https://academic.oup.com/sleep/advance-article/doi/10.1093/sleep/zsaa179/5904453) published in SLEEP.
 
 
 
